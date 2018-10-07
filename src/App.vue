@@ -2,10 +2,12 @@
   <v-app class="app" id="app">
     <header>
       <h3>F*ck LMS</h3>
+      <!-- <h4 style="position:absolute; right:15%; top:10px;">Онлайн: <b>150</b></h4> -->
     </header>
-    
+    <!-- <router-view/> -->
     <!-- <CreateRoom/> -->
     <v-container fluid grid-list-xl class="container">
+      
       <v-layout justify-center>
         <v-flex md5>
           <AddQuestion/>
@@ -108,9 +110,6 @@ header {
   color: white;
 }
 
-html {
-
-}
 footer {
   padding: 10px;
   background: black;

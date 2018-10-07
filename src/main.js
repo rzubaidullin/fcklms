@@ -6,6 +6,7 @@ import "vuetify/dist/vuetify.min.css";
 import Toaster from 'v-toaster';
 import 'v-toaster/dist/v-toaster.css';
 
+
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(Toaster, {

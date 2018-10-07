@@ -33,7 +33,7 @@ export default new Vuex.Store({
     searchedAnswers(state) {
       return _filter(
         state.answers,
-        (item)=>
+        (item) =>
           state.question === "" ||
           (state.question !== "" &&
             _includes(_toLower(item.text), _toLower(state.question)))
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       // console.log(state);
       return _filter(
         state.questions,
-        (item)=>
+        (item) =>
           state.question === "" ||
           (state.question !== "" &&
             _includes(_toLower(item.name), _toLower(state.question)))
@@ -52,17 +52,17 @@ export default new Vuex.Store({
     },
 
     reversedAnswersList(state, getters) {
-      return getters.searchedAnswers.reverse()
+      return getters.searchedAnswers.reverse();
     },
 
     needsConfirm(state, getters) {
-      return getters.searchedAnswers.length > 0 && state.question !== ''
+      return getters.searchedAnswers.length > 0 && state.question !== "";
     }
   },
   mutations: {
     addQuestion(state) {
       state.questions.push({ id: uuid(), name: state.question });
-      state.question = ''
+      state.question = "";
     },
     answerToQuestion(state, question) {
       state.answers.push({
