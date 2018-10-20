@@ -15,7 +15,6 @@
 export default {
     methods: {
       search(query){
-        console.log(query)
         this.$store.commit('setSearchQuery',query);
       }
     }

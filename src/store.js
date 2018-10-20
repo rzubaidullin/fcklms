@@ -11,23 +11,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    room: null, // null || { id, name }
     question: "",
     answer: [],
     questions: [],
-    answers: [
-      // {
-      //   id: 1,
-      //   text:
-      //     "Когда равновесный выпуск падает ниже потенциального и совокупных расходов недостаточно для обеспечения полной занятости ресурсов, эта ситуация называется в экономике.",
-      //   answer: "Инфляционный разрыв"
-      // },
-      // {
-      //   id: 2,
-      //   text:
-      //     "Совокупный доход страны равен совокупным расходам всех фирм в экономике.",
-      //   answer: "Не правда"
-      // }
-    ] // { id, text }
+    answers: [],
+    roomExists: null,
+    currUrl: null // null || {bool}
   },
   getters: {
     searchedAnswers(state) {
@@ -83,49 +73,68 @@ export default new Vuex.Store({
     },
     setAnswersList(state, list) {
       state.answers = list;
+    },
+    setRoom(state, room) {
+      state.room = room;
     }
   },
   actions: {
-    getQuestionsList(context) {
+    getQuestionsList(context, url) {
       return axios
-        .get("http://fcklms.styleru.org/api/getAllQuestions")
+        .get("http://fcklms.styleru.org/api/getAllQuestions" + "?url=" + url)
         .then(response => {
           // { questions: [{}, {}, ..] }
           context.commit("setQuestionsList", response.data);
           return response.data;
-        })
+        });
     },
-    getAnsweresList(context) {
+    getAnsweresList(context, url) {
       return axios
-        .get("http://fcklms.styleru.org/api/getAnsweredQuestions")
+        .get(
+          "http://fcklms.styleru.org/api/getAnsweredQuestions" + "?url=" + url)
         .then(response => {
           // { questions: [{}, {}, ..] }
           context.commit("setAnswersList", response.data);
           return response.data;
         });
     },
-    addQuestion(context) {
+    addQuestion(context, url) {
       const data = new FormData();
       data.append("text", context.state.question);
+      data.append("url", url);
 
       return axios
         .post("http://fcklms.styleru.org/api/addQuestions", data)
-        .then(response => {})
+        .then()
         .catch(e => {
           console.log(e);
         });
     },
-    answerQuestion(context, answer) {
+    answerQuestion(context, answer, url) {
       const data = new FormData();
       data.append("answer", answer.answer);
       data.append("id", answer.id);
+      data.append("url", url);
 
       return axios
         .post("http://fcklms.styleru.org/api/answerQuestion", data)
-        .then(response => {})
+        .then()
         .catch(e => {
           console.log(e);
+        });
+    },
+    addRoom(context) {
+      const data = new FormData();
+      data.append("room", context.state.room);
+      return axios
+        .post("http://fcklms.styleru.org/api/createRoom", data)
+        .then(response => {
+          context.state.roomExists = response.data;
+          // console.log(context.state.roomExists);
         })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 });

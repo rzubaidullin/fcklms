@@ -13,9 +13,15 @@ export default new Router({
       component: CreateRoom
     },
     {
-      path: "/room",
+      path: "/room/:url",
       name: "Room",
+      props: true,
       component: Room
+    },
+    {
+      path: "*",
+      name: "NotFound",
+      redirect: "/"
     }
   ]
 });

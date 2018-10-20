@@ -1,101 +1,33 @@
 <template>
   <v-app class="app" id="app">
     <header>
-      <h3>F*ck LMS</h3>
+      <h3><router-link to="/" style="color:white; text-decoration:none;">Fck LMS</router-link></h3>
       <!-- <h4 style="position:absolute; right:15%; top:10px;">Онлайн: <b>150</b></h4> -->
     </header>
-    <!-- <router-view/> -->
-    <!-- <CreateRoom/> -->
-    <v-container fluid grid-list-xl class="container">
-      
-      <v-layout justify-center>
-        <v-flex md5>
-          <AddQuestion/>
-          <hr style="margin: 20px;"/>
-          <h5 v-if="questionsLoading">Загрузка...</h5>
-          <h5 v-else>Список Вопросов</h5>
-          <h4 v-if="!isQuestions">Пока нет вопросов. Добавь!</h4>
-          <div>
-            <QuestionItem v-for="item in searchedQuestions" :key="item.id" :question="item"/>
-          </div>
-        </v-flex>
-        <v-flex md5>
-          <h1 style="margin-bottom:20px;">Ответы</h1>
-          <h4 v-if="!isAnswers">Пока нет вопросов с ответами</h4>
-          <div v-for="item in reversedAnswersList" :key="item.id">
-            <AnswerItem :answer="item"/>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
     
+    <router-view/>
+
     <footer>
-      <h4>Powered by <b>rzubaidullin</b></h4>
-      <!-- and <b style="color:#ff0000">Red</b>Octopus</h4> -->
+      <h4>Powered by <a href="https://redoctopus.studio" target="_blank" style="text-decoration:none;"><b>ZR</b></a></h4>
+      <h5>Если вы хотите поддержать проект можно приобрести почту типа imgonna@fcklms.ru <br>
+        <a href="mailto:imgonna@fcklms.ru" style="text-decoration:none; color:#ff0000;" target="_blank">Пиши нам</a>
+      </h5>
     </footer>
   </v-app>
 </template>
 
 <script>
-
-import AddQuestion from "./components/AddQuestion.vue";
-import AnswerItem from "./components/AnswerItem.vue";
-import QuestionItem from "./components/QuestionItem.vue";
-import CreateRoom from "./components/CreateRoom.vue";
-import { mapState, mapGetters, mapActions } from 'vuex';
-
-
 export default {
-  name: "app",
-  components: {
-    AddQuestion,
-    AnswerItem,
-    QuestionItem,
-    CreateRoom
-  },
-  data: () => ({
-    questionsLoading: false,
-  }),
-  computed: {
-    ...mapState({
-      questions: s => s.questions,
-      answers: s => s.answers
-    }),
-    ...mapGetters([
-      'searchedAnswers', 
-      'reversedAnswersList',
-      'searchedQuestions'
-      ]),
-    isQuestions: s => s.searchedQuestions.length > 0 ? true : false,
-    isAnswers: s => s.searchedAnswers.length > 0 ? true : false,
-  },
-  methods: {
-    ...mapActions({
-      'getQuestionsList': 'getQuestionsList',
-      'getAnsweresList':'getAnsweresList'
-    }),
-
-    loadQuestions () {
-      this.questionsLoading = true
-      this.getQuestionsList().then(() => {
-        this.questionsLoading = false
-      }).catch(() => {
-        this.questionsLoading = false
-      }),
-      this.getAnsweresList().then(()=>{});
-    }
-  },
-
-  created () {
-    this.loadQuestions()
-    setInterval(() => {
-      this.loadQuestions()
-    }, 5000)
-  }
+  name: "app"
 };
 </script>
 
 <style>
+#home {
+  color: white;
+  text-decoration: none;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -137,7 +69,7 @@ a {
 }
 
 h4{
-  padding: 10px;
+  padding: 10px; 
   font-size: 17px;
   font-weight: inherit;
   white-space: pre-wrap;
@@ -150,6 +82,7 @@ h4{
 
 hr{
   width: 40%;
+  margin: 0;
   /* margin: auto;  */
 }
 
@@ -161,4 +94,12 @@ hr{
 b {
   color:#ff0000;
 }
+
+@media(max-width:700px){
+  .desktop {
+    display: none;
+  }
+}
+
+
 </style>
